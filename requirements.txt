@@ -1,8 +1,5 @@
 fastapi
-uvicorn
 prisma
 langgraph
-langchain
 langchain-openai
 httpx
-pydantic

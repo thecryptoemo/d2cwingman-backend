@@ -1,9 +1,5 @@
 {
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/index.py"
-    }
-  ],
-  "installCommand": "bash vercel-build.sh"
+    { "source": "/(.*)", "destination": "/api/index.py" }
+  ]
 }
