@@ -1,0 +1,5 @@
+fastapi
+prisma
+langgraph
+langchain-openai
+httpx
