@@ -1,5 +1,14 @@
-from fastapi import FastAPI
-from agents.api import app as fastapi_app
+import sys
+import os
 
-# Vercel needs the app object to be named 'app' at the root of index.py
-app = fastapi_app
+# Add the current directory to sys.path so 'agents' can be found
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+try:
+    from agents.api import app
+except Exception as e:
+    from fastapi import FastAPI
+    app = FastAPI()
+    @app.get("/health")
+    async def health():
+        return {"status": "error", "message": str(e), "path": sys.path}
