@@ -15,21 +15,21 @@ class ModelConfig:
     output_cost_per_m: float
     max_context: int
 
-# Registry with production-grade defaults
+# Updated Registry to use OpenAI only (since Anthropic key is missing)
 MODEL_REGISTRY = {
     ModelTier.REASONING: ModelConfig(
-        provider="anthropic",
-        model="claude-3-5-sonnet-20240620",
-        input_cost_per_m=3.0,
+        provider="openai",
+        model="gpt-4o",
+        input_cost_per_m=5.0,
         output_cost_per_m=15.0,
-        max_context=200_000,
+        max_context=128_000,
     ),
     ModelTier.WORKHORSE: ModelConfig(
-        provider="anthropic",
-        model="claude-3-haiku-20240307",
-        input_cost_per_m=0.25,
-        output_cost_per_m=1.25,
-        max_context=200_000,
+        provider="openai",
+        model="gpt-4o-mini",
+        input_cost_per_m=0.15,
+        output_cost_per_m=0.60,
+        max_context=128_000,
     ),
     ModelTier.BULK: ModelConfig(
         provider="openai",
@@ -76,12 +76,3 @@ def get_model_for_task(task_type: str) -> ModelConfig:
         
     tier = TASK_ROUTING.get(task_type, ModelTier.WORKHORSE)
     return MODEL_REGISTRY[tier]
-
-if __name__ == "__main__":
-    # Quick Test
-    os.environ["WEAVE_DEV_MODE"] = "true"
-    print(f"Dev Mode (Negotiation): {get_model_for_task('sourcing.negotiation.compose_message').model}")
-    
-    os.environ["WEAVE_DEV_MODE"] = "false"
-    print(f"Prod Mode (Negotiation): {get_model_for_task('sourcing.negotiation.compose_message').model}")
-    print(f"Prod Mode (Parsing): {get_model_for_task('sourcing.research.parse_listing').model}")
