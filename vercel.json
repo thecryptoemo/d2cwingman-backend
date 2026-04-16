@@ -4,5 +4,6 @@
       "source": "/(.*)",
       "destination": "/api/index.py"
     }
-  ]
+  ],
+  "installCommand": "bash vercel-build.sh"
 }
